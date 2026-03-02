@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container upload-page">
+  <h2>رفع قاعدة بيانات SQLite</h2>
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="dbfile" accept=".db,.sqlite,.sqlite3" required>
+    <button class="btn-primary">رفع 🔼</button>
+  </form>
+  <p>بعد الرفع ستستخدم قاعدة بياناتك الخاصة مؤقتًا.</p>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

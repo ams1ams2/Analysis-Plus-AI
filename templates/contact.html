@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<style>
+.contact-card {
+  max-width: 520px;
+  margin: 60px auto 0 auto;
+  padding: 36px 28px 28px 28px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,128,128,0.08);
+  border: 1px solid #e3eaf1;
+  position: relative;
+}
+.contact-card h2 {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #218c74;
+  font-size: 1.75rem;
+}
+.contact-form-group {
+  background: #fafdff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,128,128,0.04);
+  padding: 16px 14px 10px 14px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.contact-form-group:focus-within {
+  box-shadow: 0 4px 16px rgba(32,201,151,0.13);
+  border: 1.5px solid #20c997;
+}
+.contact-form-group .icon {
+  position: absolute;
+  right: 14px;
+  top: 18px;
+  font-size: 1.2rem;
+  color: #20c997;
+  opacity: 0.85;
+}
+.contact-form-group label {
+  font-weight: bold;
+  color: #218c74;
+  margin-bottom: 6px;
+  margin-right: 28px;
+  font-size: 1.12rem;
+}
+.contact-form-group input,
+.contact-form-group textarea {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1.15rem;
+  color: #1a1a1a;
+  padding-right: 28px;
+  padding-left: 4px;
+  margin-bottom: 0;
+  resize: none;
+}
+.contact-form-group input::placeholder,
+.contact-form-group textarea::placeholder {
+  color: #b0bfc6;
+  font-size: 1.05rem;
+}
+.btn-send {
+  background: linear-gradient(90deg,#20c997,#218c74);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 0;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(32,201,151,0.08);
+}
+.btn-send:hover {
+  background: linear-gradient(90deg,#218c74,#20c997);
+  box-shadow: 0 4px 16px rgba(32,201,151,0.13);
+}
+.contact-info {
+  background: #fafdff;
+  border-radius: 10px;
+  padding: 20px 14px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0,128,128,0.04);
+  font-size: 1.18rem;
+  color: #1a1a1a;
+}
+.contact-info .icon {
+  font-size: 1.3rem;
+  margin-left: 8px;
+  color: #218c74;
+}
+.contact-info a {
+  color: #218c74;
+  text-decoration: none;
+  font-weight: 500;
+}
+.contact-info a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+{% block content %}
+<header class="navbar glass d-flex align-items-center px-4">
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       alt="تحليل بلس" class="logo-big me-auto">
+  <nav class="main-nav">
+    <a href="/" class="nav-btn">🏠 الرئيسية</a>
+    <a href="{{ url_for('index') }}" class="nav-btn primary">🛠 لوحة الاستعلام</a>
+    <a href="{{ url_for('chat') }}"  class="nav-btn primary">💬 الدردشة</a>
+    <a href="/contact" class="nav-btn">تواصل</a>
+    <a href="/about" class="nav-btn">من نحن</a>
+  </nav>
+</header>
+<div class="contact-card">
+  <h2 class="mb-4 text-center">تواصل معنا</h2>
+  <form onsubmit="event.preventDefault();alert('تم إرسال رسالتك بنجاح!');this.reset();">
+    <div class="contact-form-group">
+      <span class="icon">👤</span>
+      <label for="name">الاسم</label>
+      <input id="name" type="text" class="form-control" placeholder="اسمك الكامل" required>
+    </div>
+    <div class="contact-form-group">
+      <span class="icon">✉️</span>
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" class="form-control" placeholder="you@email.com" required>
+    </div>
+    <div class="contact-form-group">
+      <span class="icon">📝</span>
+      <label for="msg">رسالتك</label>
+      <textarea id="msg" class="form-control" rows="4" placeholder="اكتب رسالتك هنا..." required></textarea>
+    </div>
+    <button class="btn btn-send w-100">إرسال الرسالة</button>
+  </form>
+  <div class="contact-info mt-4">
+    <div><span class="icon">👤</span>ضياء الدين محمد سبعي</div>
+    <div><span class="icon">📞</span><a href="tel:0504576912">0504576912</a></div>
+    <div><span class="icon">✉️</span><a href="mailto:ams103ams103@hotmail.com">ams103ams103@hotmail.com</a></div>
+    <div><span class="icon">💬</span><a href="https://wa.me/966504576912" target="_blank">واتساب: 966504576912+</a></div>
+  </div>
+</div>
+{% endblock %} 

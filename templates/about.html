@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<style>
+.about-card {
+  max-width: 750px;
+  margin: 60px auto 0 auto;
+  padding: 38px 30px 30px 30px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,128,128,0.08);
+  border: 1px solid #e3eaf1;
+  position: relative;
+}
+.about-card h2 {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #218c74;
+  font-size: 1.75rem;
+}
+.about-card .section-title {
+  color: #218c74;
+  font-weight: bold;
+  margin-top: 26px;
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+.about-card .info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 1.18rem;
+  color: #1a1a1a;
+}
+.about-card .icon {
+  font-size: 1.3rem;
+  color: #218c74;
+}
+.about-card a {
+  color: #218c74;
+  text-decoration: none;
+  font-weight: 500;
+}
+.about-card a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+{% block content %}
+<header class="navbar glass d-flex align-items-center px-4">
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       alt="تحليل بلس" class="logo-big me-auto">
+  <nav class="main-nav">
+    <a href="/" class="nav-btn">🏠 الرئيسية</a>
+    <a href="{{ url_for('index') }}" class="nav-btn primary">🛠 لوحة الاستعلام</a>
+    <a href="{{ url_for('chat') }}"  class="nav-btn primary">💬 الدردشة</a>
+    <a href="/contact" class="nav-btn">تواصل</a>
+    <a href="/about" class="nav-btn">من نحن</a>
+  </nav>
+</header>
+<div class="about-card">
+  <h2 class="mb-4 text-center">من نحن</h2>
+  <div class="section-title">عن المشروع</div>
+  <p style="font-size:1.2rem;line-height:2.1;">
+    <strong>تحليل بلس</strong> منصة عامة لتحليل المعلومات بشكل فوري: تحويل الأسئلة بلغة طبيعية إلى استعلامات SQL وتنفيذها على قاعدة بياناتك، مع دعم OpenRouter لاختيار أي نموذج (GPT، Claude، Gemini وغيرها) وخصوصية تامة.
+  </p>
+  <div class="section-title">رؤيتنا</div>
+  <p style="font-size:1.15rem;line-height:1.9;">أن نجعل التحليل الذكي للمعلومات متاحًا للجميع، مع الحفاظ على أعلى معايير الأمان والخصوصية.</p>
+  <div class="section-title">قيمنا</div>
+  <ul style="line-height:2.1;font-size:1.15rem;">
+    <li>الخصوصية</li>
+    <li>البساطة</li>
+    <li>الابتكار</li>
+    <li>الشفافية</li>
+  </ul>
+  <div class="section-title">صاحب المشروع</div>
+  <div class="info-row"><span class="icon">👤</span>ضياء الدين محمد سبعي</div>
+  <div class="info-row"><span class="icon">📞</span><a href="tel:0504576912">0504576912</a></div>
+  <div class="info-row"><span class="icon">✉️</span><a href="mailto:ams103ams103@hotmail.com">ams103ams103@hotmail.com</a></div>
+  <div class="info-row"><span class="icon">💬</span><a href="https://wa.me/966504576912" target="_blank">واتساب: 966504576912+</a></div>
+</div>
+{% endblock %} 

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+<header class="navbar">
+  <!-- الشعار (يمين) -->
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       alt="تحليل بلس" class="logo-big">
+
+  <!-- قوائم وسط الهيدر -->
+  <nav class="main-nav">
+    <a href="/" class="nav-btn">🏠 الرئيسية</a>
+    <!-- روابط أساسية مميَّزة -->
+    <a href="{{ url_for('index') }}" class="nav-btn primary">
+      <span class="nav-ico">🛠</span> لوحة الاستعلام
+    </a>
+    <a href="{{ url_for('chat') }}" class="nav-btn primary">
+      <span class="nav-ico">💬</span> الدردشة
+    </a>
+
+    <!-- روابط ثانوية -->
+    <a href="/contact" class="nav-btn">تواصل</a>
+    <a href="/about" class="nav-btn">من نحن</a>
+  </nav>
+</header>
+
+<section class="hero" dir="rtl">
+  <h1 class="hero-title">
+    <span class="gradient-text">حوِّل سؤالك إلى رؤى مذهلة!</span> 🚀
+  </h1>
+  <div class="subtitle hero-subtitle" dir="rtl">
+    <span class="subtitle-highlight">تُنفَّذ الاستعلامات مباشرة على خادمك لتحصل على خصوصيّة قصوى. OpenRouter</span> وسيط فقط — اختر أي نموذج من النماذج المتاحة.<br>
+  </div>
+  <a href="{{ url_for('index') }}" class="cta-btn">ابدأ الاستعلام الآن</a>
+</section>
+
+<section class="feature-grid">
+  <div class="feature"><div class="icon">🧠</div><h3>لغة طبيعيّة → SQL</h3><p>اسأل بالعربية واستلم كودك.</p></div>
+  <div class="feature"><div class="icon">📊</div><h3>رسوم فورية</h3><p>من جدول إلى رسم بضغطة.</p></div>
+  <div class="feature"><div class="icon">🔒</div><h3>خصوصيّة مطلقة</h3><p>لا نرفع بياناتك إطلاقًا.</p></div>
+  <div class="feature"><div class="icon">⚡</div><h3>تحليل فوري</h3><p>نظام عام لتحليل المعلومات في أجزاء من الثانية.</p></div>
+
+  <div class="feature"><div class="icon">💬</div><h3>شرح بالعربية</h3><p>يبسّط SQL ويشرحه لك.</p></div>
+  <div class="feature"><div class="icon">🤖</div><h3>أي نموذج</h3><p>OpenRouter: اختر GPT أو Claude أو Gemini وغيرها.</p></div>
+  <div class="feature"><div class="icon">🛡️</div><h3>اتصال مُشفّر</h3><p>يعمل عبر HTTPS بالكامل.</p></div>
+  <div class="feature"><div class="icon">💡</div><h3>أمثلة آمنة</h3><p>بيانات وهمية للاختبار بلا مخاطرة.</p></div>
+</section>
+</div>
+<footer class="footer">© {{ current_year }} تحليل بلس</footer>
+
+<!-- فقاعات الخلفيّة -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script defer src="{{ url_for('static', filename='js/landing.js') }}"></script>
+{% endblock %}

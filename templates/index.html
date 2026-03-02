@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ─── الهيدر ─── -->
+<header class="navbar glass d-flex align-items-center px-4">
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       alt="تحليل بلس" class="logo-big me-auto">
+  <nav class="main-nav">
+    <a href="/" class="nav-btn">🏠 الرئيسية</a>
+    <a href="{{ url_for('index') }}" class="nav-btn primary">🛠 لوحة الاستعلام</a>
+    <a href="{{ url_for('chat') }}"  class="nav-btn primary">💬 الدردشة</a>
+    <a href="/contact" class="nav-btn">تواصل</a>
+    <a href="/about" class="nav-btn">من نحن</a>
+  </nav>
+</header>
+
+<div class="container-xl my-4">
+  <section class="query-card glass p-4">
+
+    <!-- أدوات الاستعلام -->
+    <div class="tool-row mb-3">
+      <div class="btn-group" role="group">
+        <input type="radio" class="btn-check" name="dataMode" id="realRadio" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="realRadio" data-bs-toggle="tooltip" data-bs-title="من القاعدة الحقيقية">🗄️ حقيقية</label>
+        <input type="radio" class="btn-check" name="dataMode" id="demoRadio" autocomplete="off">
+        <label class="btn btn-outline-warning" for="demoRadio" data-bs-toggle="tooltip" data-bs-title="استخدم mock.db">🎲 ديمو</label>
+      </div>
+
+      <button id="connect-open" class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-title="ربط بقاعدة بيانات خارجية">🔗 ربط قاعدة</button>
+      <button id="upload-data-open" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-title="رفع ملف Excel أو SQLite من الجهاز">📤 رفع بيانات</button>
+      <button id="disconnect-btn" class="btn btn-outline-danger d-none" data-bs-toggle="tooltip" data-bs-title="قطع الاتصال أو إلغاء البيانات المرفوعة">🚫 قطع الاتصال</button>
+
+      <select id="model-select" class="form-select w-auto" data-bs-toggle="tooltip" data-bs-title="اختر نموذج OpenRouter">
+        <option value="">جاري التحميل…</option>
+      </select>
+
+      <button id="show-data-shape" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-title="عرض شكل البيانات الأساسية (الجداول والأعمدة وعينة)">
+        📋 شكل البيانات
+      </button>
+      <div class="form-check form-switch" data-bs-toggle="tooltip" data-bs-title="تحديث الرسم كل 5 ثوان">
+        <input class="form-check-input" type="checkbox" id="live-toggle">
+        <label class="form-check-label small" for="live-toggle">🔄</label>
+      </div>
+    </div>
+
+    <!-- نموذج السؤال -->
+    <form id="query-form" class="d-flex flex-wrap gap-2 mb-3">
+      <input id="question" class="form-control flex-grow-1" placeholder="اكتب سؤالك باللغة الطبيعية… (مثال: كم عدد السجلات؟)">
+      <button class="btn btn-action ask-btn" data-bs-toggle="tooltip" data-bs-title="نفّذ الاستعلام">🚀 اسأل</button>
+    </form>
+
+    <!-- سبينر -->
+    <div id="spinner" class="text-center my-3 d-none">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <!-- SQL منسّق بإطار -->
+    <div id="sql-frame" class="sql-frame d-none"></div>
+
+    <!-- قائمة الأعمدة -->
+    <div id="col-list" class="col-list d-none mb-2"></div>
+
+    <!-- نتائج مع scroll على 5 صفوف -->
+    <div class="result-container">
+      <div id="result"></div>
+    </div>
+
+    <!-- الرسم -->
+    <canvas id="chart" class="mt-4" height="200"></canvas>
+    <!-- أدوات التحكم في الرسم البياني -->
+    <div class="chart-controls mt-3">
+      <div class="chart-control-group">
+        <label for="chart-type-select" class="form-label mb-0">نوع الرسم:</label>
+        <select id="chart-type-select" class="form-select form-select-sm">
+          <option value="auto">تلقائي (موصى به)</option>
+          <option value="bar">أعمدة</option>
+          <option value="line">خطّي</option>
+          <option value="pie">دائري</option>
+          <option value="scatter">نقاط (Scatter)</option>
+        </select>
+      </div>
+      <div class="chart-control-group">
+        <label for="x-axis-select" class="form-label mb-0">محور X:</label>
+        <select id="x-axis-select" class="form-select form-select-sm">
+          <option value="">تلقائي</option>
+        </select>
+      </div>
+      <div class="chart-control-group">
+        <label for="y-axis-select" class="form-label mb-0">محور Y:</label>
+        <select id="y-axis-select" class="form-select form-select-sm">
+          <option value="">تلقائي</option>
+        </select>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- ─── Footer في المنتصف ─── -->
+<footer class="footer glass text-center py-2">
+  © {{ current_year }} تحليل بلس
+</footer>
+
+<!-- ─── مودال ربط قاعدة ─── -->
+<div class="modal fade" id="connectModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content glass p-3">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">ربط قاعدة بيانات</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Host</label>
+          <input type="text" class="form-control" id="db-host" placeholder="localhost">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Port</label>
+          <input type="text" class="form-control" id="db-port" placeholder="5432">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">User</label>
+          <input type="text" class="form-control" id="db-user" placeholder="postgres">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="db-password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Database Name</label>
+          <input type="text" class="form-control" id="db-name" placeholder="mydb">
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+        <button id="connect-btn" class="btn btn-primary">ربط</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مودال رفع بيانات (Excel / SQLite) -->
+<div class="modal fade" id="uploadDataModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">📤 رفع بيانات من الجهاز</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small mb-3">اختر ملف Excel (.xlsx, .xls) أو قاعدة SQLite (.db, .sqlite) لاستخدامها في الاستعلامات.</p>
+        <input type="file" id="upload-data-file" class="form-control" accept=".xlsx,.xls,.db,.sqlite,.sqlite3">
+        <div id="upload-data-status" class="mt-2 small"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+        <button type="button" id="upload-data-btn" class="btn btn-primary">رفع</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مودال شكل البيانات الأساسية -->
+<div class="modal fade" id="dataShapeModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">📋 شكل البيانات الأساسية</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="data-shape-body">
+        <p class="text-muted mb-2">الجدول والأعمدة وعينة من الصفوف (حسب وضع حقيقية/ديمو الحالي). انزل للأسفل لتحميل المزيد.</p>
+        <div id="data-shape-info" class="mb-3 p-3 rounded" style="background:#e8f5e9;border:1px solid #c8e6c9;"></div>
+        <div id="data-shape-schema" class="mb-3 p-3 bg-light rounded font-monospace small" style="white-space:pre-wrap;"></div>
+        <div id="data-shape-table-name" class="mb-2 fw-bold" style="font-size:1.1rem;"></div>
+        <div id="data-shape-columns" class="mb-2" style="font-size:1.05rem;"></div>
+        <div id="data-shape-sample-wrapper" class="table-responsive">
+          <table class="table table-bordered table-sm table-hover" id="data-shape-sample-table">
+            <thead id="data-shape-thead"></thead>
+            <tbody id="data-shape-sample"></tbody>
+          </table>
+        </div>
+        <div id="data-shape-load-more" class="text-center py-2 d-none"><span class="text-muted">جاري تحميل المزيد…</span></div>
+        <div id="data-shape-error" class="alert alert-danger d-none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="blob blob1"></div><div class="blob blob2"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script defer src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
