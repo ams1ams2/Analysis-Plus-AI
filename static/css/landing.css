@@ -1,0 +1,175 @@
+/* خلفيّة متحرّكة */
+body{
+    --x:0px; --y:0px;
+    background: #fcfcfd;
+    background-position: initial;
+    background-size: initial;
+    animation: none;
+    color: #1a1a1a;
+  }
+  
+  /* دوائر غائمة */
+  .blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;transition:transform .2s}
+  .blob1{width:320px;height:320px;top:-60px;left:-60px;background:#66a6ff}
+  .blob2{width:280px;height:280px;bottom:-70px;right:-70px;background:#ff9a9e}
+  
+  /* شريط التنقّل */
+  .navbar{
+    position:sticky;top:0;z-index:10;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;padding:10px 22px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08)
+  }
+  .logo-big{height:80px;margin-left:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
+  .main-nav{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:16px}
+  
+  /* أزرار القائمة – ألوان أوضح */
+  .nav-btn{
+    position:relative;overflow:hidden;
+    padding:10px 22px;border-radius:30px;font-weight:600;font-size:1.05rem;
+    border:2px solid #66a6ff;
+    color:#0664ff;                 /* خط أزرق واضح */
+    background:rgba(102,166,255,.1);/* أزرق باهت نصف شفاف */
+    text-decoration:none;transition:background .25s,color .25s,transform .25s;
+  }
+  .nav-btn:hover{
+    background:#66a6ff;
+    color:#fff;
+    transform:translateY(-3px)
+  }
+  .nav-btn::before{
+    content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
+    transition:left .6s;pointer-events:none
+  }
+  .nav-btn:hover::before{left:100%}
+  
+  /* Ripple */
+  .ripple{
+    position:absolute;border-radius:50%;background:rgba(255,255,255,.6);
+    transform:scale(0);animation:ripple .6s linear
+  }
+  @keyframes ripple{to{transform:scale(4);opacity:0}}
+  
+  /* الهيرو — خط أكبر وواضح للصفحة الرئيسية */
+  .hero{text-align:center;padding:130px 10px 40px;color:#fff}
+  .hero h1,.hero-title{font-size:3.1rem;margin-bottom:20px;color:#218c74;font-weight:900;letter-spacing:0.5px;line-height:1.35}
+  .gradient-text{background:linear-gradient(90deg,#66a6ff,#ff9a9e);
+                 -webkit-background-clip:text;color:transparent}
+  .subtitle,.hero-subtitle{font-size:1.5rem;margin-bottom:28px;color:#155263;font-weight:500;line-height:2.1}
+  .subtitle-highlight{font-weight:bold;color:#218c74}
+  .cta-btn{
+    display:inline-block;padding:14px 36px;border-radius:30px;background:#218c74;
+    color:#fff;font-weight:600;font-size:1.1rem;text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);transition:transform .25s,box-shadow .25s
+  }
+  .cta-btn:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  
+  /* شبكة الميزات */
+  .feature-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:22px;
+    max-width:1000px;margin:0 auto;padding:24px 20px;
+  }
+  @media(max-width:900px){.feature-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:500px){.feature-grid{grid-template-columns:1fr}}
+  
+  .feature{
+    background:rgba(255,255,255,.94);border-radius:16px;padding:18px 14px;text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.06);transform:translateY(25px);opacity:0;
+    transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s;
+  }
+  .feature.visible{transform:translateY(0);opacity:1}
+  .feature .icon{font-size:2.5rem;margin-bottom:12px}
+  .feature h3{font-size:1.25rem;margin-bottom:10px;color:#218c74;font-weight:700}
+  .feature p{font-size:1.12rem;color:#444;line-height:1.65}
+  
+  /* الفوتر */
+  html, body {
+    height: 100%;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .main-content {
+    flex: 1 0 auto;
+  }
+  .footer {
+    margin-top: auto;
+    margin-bottom: 0;
+    backdrop-filter: blur(5px);
+    background: rgba(0,0,0,.08);
+    color: #444;
+    text-align: center;
+    font-size: 1rem;
+    padding: 12px 0;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  
+  .blob, .blob1, .blob2 {
+    display: none !important;
+  }
+  
+  /* Add responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .logo-big {
+        margin-left: 0;
+        margin-bottom: 10px;
+        height: 60px;
+    }
+    .main-nav {
+        position: static;
+        transform: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+    }
+    .main-nav .nav-btn {
+        padding: 6px 15px;
+        font-size: .85rem;
+    }
+
+    .hero {
+        padding: 100px 10px 30px;
+    }
+    .hero h1, .hero-title {
+        font-size: 2.2rem;
+    }
+    .subtitle, .hero-subtitle {
+        font-size: 1.25rem;
+    }
+    .cta-btn {
+        padding: 10px 24px;
+        font-size: .9rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+    .feature {
+        padding: 14px 10px;
+    }
+    .feature .icon {
+        font-size: 2rem;
+    }
+    .feature h3 {
+        font-size: 1.1rem;
+    }
+    .feature p {
+        font-size: 1rem;
+    }
+
+    .footer {
+        padding: 10px;
+    }
+  }
+  

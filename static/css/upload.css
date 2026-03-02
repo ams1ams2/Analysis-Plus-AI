@@ -1,0 +1,4 @@
+.upload-page .container{background:rgba(255,255,255,0.9);max-width:500px;margin:60px auto;padding:20px;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.2);text-align:center}
+.upload-page input[type="file"]{margin:20px 0}
+.upload-page button{background:#66a6ff;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;transition:opacity .3s}
+.upload-page button:hover{opacity:.8}

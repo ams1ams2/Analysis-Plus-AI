@@ -1,0 +1,308 @@
+@import url("landing.css");
+
+body {
+  background: linear-gradient(135deg, #fcfefe 0%, #f3fafc 60%, #f5fcf7 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+  color: #1a1a1a;
+}
+
+/* ─── الهيدر ─── */
+.navbar {
+  position: sticky;
+  top: 0; z-index: 50;
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+}
+.logo-big {
+  height: 60px;
+  margin-right: 20px;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,.15));
+}
+/* نركّز القوائم في المنتصف */
+.main-nav {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  display: flex; gap:12px;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .logo-big {
+    margin-right: 0;
+    margin-bottom: 10px;
+    height: 50px;
+  }
+  .main-nav {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+  }
+  .main-nav .nav-btn {
+    padding: 6px 15px;
+    font-size: .85rem;
+  }
+
+  .query-card {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .tool-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .tool-row .btn-group, .tool-row .form-select, .tool-row .form-check {
+    width: 100%;
+    justify-content: center;
+  }
+  .tool-row .ms-auto {
+    margin-left: 0 !important;
+  }
+
+  /* Adjust table display for smaller screens if needed */
+  .result-container table,
+  .result-container thead,
+  .result-container tbody,
+  .result-container th,
+  .result-container td,
+  .result-container tr {
+    display: block;
+  }
+
+  .result-container thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .result-container tr {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+  }
+
+  .result-container td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+
+  .result-container td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    content: attr(data-label);
+    font-weight: bold;
+  }
+   /* Hide the 'private' label on mobile as it's confusing with the data-label */
+  td.private::after {
+    display: none;
+  }
+
+  /* Adjust chart size */
+  #chart {
+    height: 150px; /* Adjust as needed */
+  }
+
+  .footer {
+    position: static;
+    margin-top: 20px;
+  }
+
+  .chart-controls {
+    justify-content: center;
+  }
+  .chart-control-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ─── بطاقات زجاجية ─── */
+.glass {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 128, 128, 0.08);
+  border: 1px solid rgba(160, 196, 255, 0.18);
+}
+
+/* ─── بطاقة الاستعلام ─── */
+.query-card {
+  max-width: 1000px;
+  margin: 30px auto;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 128, 128, 0.08);
+  border: 1px solid rgba(160, 196, 255, 0.18);
+  font-size: 1.06rem;
+}
+.query-card .form-control,
+.query-card input[type="text"] {
+  font-size: 1.1rem;
+  padding: 10px 14px;
+}
+.query-card .form-select { font-size: 1.05rem; }
+.query-card .btn { font-size: 1.05rem; }
+.query-card .form-check-label { font-size: 1.05rem; }
+
+/* ─── أدوات الاستعلام ─── */
+.tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items:center;
+}
+
+/* ─── زر التنفيذ ─── */
+.btn-action {
+  background: #218c74;
+  border: 2px solid #218c74;
+  color: #fff;
+}
+.btn-action:hover {
+  background: #155263;
+  border-color: #155263;
+}
+
+/* ─── إطار SQL ─── */
+.sql-frame {
+  display: block;
+  border: 1px solid #ced4da;
+  background: #f8f9fa;
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+/* ─── قائمة الأعمدة ─── */
+.col-list {
+  font-size: 1.08rem;
+}
+.col-list span {
+  margin-right: 8px;
+  margin-bottom: 6px;
+  display:inline-block;
+}
+
+/* ─── نتائج Scroll على 5 صفوف ─── */
+.result-container {
+  max-height: calc(2rem * 5 + 1rem);
+  overflow: auto;
+  margin-top: 10px;
+}
+
+/* ─── أدوات التحكم في الرسم البياني ─── */
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.chart-control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-control-group .form-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+.chart-control-group .form-select {
+  min-width: 120px;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #d0e4f5;
+  background: rgba(255,255,255,0.9);
+}
+
+/* ─── تنسيق الجدول العام ─── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #dee2e6;
+  padding: 10px 12px;
+  font-size: 1.05rem;
+  text-align: center;
+  color: #1a1a1a;
+  background: #fff;
+  line-height: 1.5;
+}
+th {
+  background: #218c74;
+  color: #fff;
+  font-weight: 600;
+}
+td.private {
+  background: #eee;
+  position: relative;
+}
+td.private::after {
+  content: "خاص";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  font-size: .75rem;
+  padding: 2px 5px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: .3s;
+}
+td.private:hover::after {
+  opacity: 1;
+}
+
+/* ─── Footer في المنتصف أسفل الصفحة ─── */
+.footer {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  padding: 14px 10px 26px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,128,128,0.05);
+  font-size: 1.05rem;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  z-index: 20;
+}
+
+/* ─── Ripple ─── */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.6);
+  transform: scale(0);
+  animation: ripple .6s linear;
+}
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}

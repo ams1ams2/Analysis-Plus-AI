@@ -1,0 +1,21 @@
+/* Reset & base */
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-size: 1.08rem;
+  background: linear-gradient(135deg,#89f7fe,#66a6ff);
+  background-size: 400% 400%; animation:grad 15s ease infinite;
+  color:#333; min-height:100vh;
+  line-height: 1.6;
+}
+@keyframes grad{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+.flash-wrapper{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:100}
+.flash{padding:12px 24px;border-radius:6px;color:#fff;margin-bottom:8px}
+.flash.success{background:#20bf6b} .flash.danger{background:#ff6b6b}
+.btn{display:inline-block;text-decoration:none;font-weight:500;transition:transform .2s}
+.btn-primary{background:#66a6ff;color:#fff;padding:12px 24px;border-radius:6px}
+.btn-secondary{background:#ff9a9e;color:#fff;padding:12px 24px;border-radius:6px}
+.btn:hover{transform:translateY(-2px)}
+.emoji-container{position:fixed;bottom:10px;right:10px;display:flex;gap:8px;font-size:2.2rem}
+.emoji{animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
